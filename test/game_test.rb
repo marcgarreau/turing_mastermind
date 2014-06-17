@@ -25,4 +25,13 @@ class GameTest < Minitest::Test
     game.add_guess("RGGB")
     assert_equal "RGGB", game.guess_history.last
   end
+
+  def test_guess_has_newer_content
+    game = Game.new
+    game.add_guess("RGGB")
+    game.add_guess("GGBB")
+    assert_equal "GGBB", game.guess_history.last
+  end
+
+
 end
