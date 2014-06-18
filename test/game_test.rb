@@ -14,24 +14,15 @@ class GameTest < Minitest::Test
     assert_equal 0, game.guess_count
   end
 
-  def test_game_will_count_guesses
+  def test_a_game_can_generate_a_code
     game = Game.new
-    game.add_guess("RGGB")
-    assert_equal 1, game.guess_count
+    game.generate_a_code
+    assert_equal 4, @code_word.length
   end
 
-  def test_guess_has_content
+  def test_one_guess_adds_to_the_guess_count
     game = Game.new
-    game.add_guess("RGGB")
-    assert_equal "RGGB", game.guess_history.last
+    #assert_equal 1, game.guess_count
   end
-
-  def test_guess_has_newer_content
-    game = Game.new
-    game.add_guess("RGGB")
-    game.add_guess("GGBB")
-    assert_equal "GGBB", game.guess_history.last
-  end
-
 
 end

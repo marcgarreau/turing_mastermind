@@ -7,10 +7,19 @@ class CodeGenerator
     @difficulty = difficulty
   end
 
+  # def validate_difficulty
+  #     diff = gets.downcase.chomp
+  #     unless diff == ("easy" || "medium" || "hard")
+  #       diff = gets.downcase.chomp
+  #       puts "Invalid Diff Setting!"
+  #     end
+  #     diff
+  # end
+
   def generate_code
     secret_code = []
-    #while ???
-      case @difficulty
+    # unless difficulty == ("easy" || "medium" || "hard")
+      case @difficulty #@difficulty
       when "easy"
         potential_letters = %w[r g b y]
         4.times { secret_code << potential_letters.shuffle.first }
@@ -27,6 +36,6 @@ class CodeGenerator
         print "Invalid difficult setting. Select from easy, medium, or hard: "
         # @difficulty = gets.downcase.chomp
       end
-    #end while
+    #end
   end
 end
