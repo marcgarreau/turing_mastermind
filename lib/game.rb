@@ -10,7 +10,6 @@ class Game
   attr_reader :time_start, :guess, :correct_letter, :counter, :guesses
 
   def initialize
-    # @guess_history = []
     @time_start = Time.now
     @guess = ""
     @correct_letter = []
@@ -30,7 +29,6 @@ class Game
   end
 
 ##################( Puzzle Assets )##################
-
   def generate_a_code
     validate_user_diff
     gen = CodeGenerator.new(@d)
@@ -53,11 +51,21 @@ class Game
   end
 
   def print_im_thinking
+    border
+    print "
+  I'm thinking of a #{@code_word.secret_code.count} letter combination. What is it?
+  There may be duplicate letters. Choices: RGBY" # => change for diff lvls
+    border_bottom
+  end
+
+  def border
+    print "
+=======================================================".blue
+  end
+
+  def border_bottom
     puts "
-=======================================================
-| I'm thinking of a #{@code_word.secret_code.count} letter combination. What is it? |
-| There may be duplicate letters. Choices: RGBY       |
-=======================================================\n\n"
+=======================================================".blue
   end
 
   def print_guess_results
@@ -70,10 +78,13 @@ class Game
 
   def print_game_over_scenarios
     @time_end = Time.now
+    # Game lost:
     if @counter < 0
-      puts "Aw too bad. Your turns ended before you got the answer. The correct answer was #{@code_word.secret_code}. Try again!"
+      puts "\nAw too bad. You used all your turns up in #{converts_time}. The correct answer was #{@code_word.secret_code}. Try again!".red
+    # Game won:
     elsif @matched_position == @code_word.secret_code
-      puts "Congratulations! You won with #{guess_count} guesses in #{converts_time}! The winning combination was #{@code_word.secret_code}."
+      puts "\nCongratulations! You won with #{guess_count} guesses in #{converts_time}! The winning combination was #{@code_word.secret_code}.".red
+    # Testing: did a game end with any other conditions?
     else
       puts "How did you escape?"
     end
@@ -89,12 +100,6 @@ class Game
   def guess_count
     @guesses.count
   end
-  #
-  # #used this (basically) in game_repl
-  # def add_guess(guess)
-  #   @guess_history << guess
-  #   #eventually: add the guess & stats (hash) to a guess array
-  # end
 
 end
 
