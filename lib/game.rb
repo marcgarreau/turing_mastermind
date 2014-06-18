@@ -32,9 +32,13 @@ class Game
 ##################( Puzzle Assets )##################
 
   def generate_a_code
-    # validate_difficulty 
-    gen = CodeGenerator.new("easy")
+    validate_user_diff
+    gen = CodeGenerator.new(@d)
     @code_word = gen.generate_code
+  end
+
+  def validate_user_diff
+    @d = GameREPL.new.validate_difficulty
   end
 
   def build_a_guess

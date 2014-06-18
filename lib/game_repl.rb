@@ -24,6 +24,22 @@ class GameREPL
     end
   end
 
+
+  def validate_difficulty
+    command = ""
+    until command == ('e' || 'm' || 'h')
+      puts "What difficulty would you like to play?"
+      command = gets.chomp.downcase
+      case command
+      when 'e' then return "easy"
+      when 'm' then return "medium"
+      when 'h' then return "hard"
+      else
+        puts "Invalid difficulty level"
+      end
+    end
+  end
+
 ##################( Menu Assets )##################
   def print_intro
     puts "
