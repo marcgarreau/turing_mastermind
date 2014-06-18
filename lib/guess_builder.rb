@@ -5,9 +5,11 @@ class GuessBuilder
 
   def initialize(guess)
     @formatted_guess = guess.split("")
-    @string_guess = @formatted_guess.join("").chomp
+    @string_guess = guess.chomp #@formatted_guess.join("").chomp
   end
 
-  Guess.new(@formatted_guess, Time.now)
+  def make_guess
+    Guess.new(@formatted_guess, Time.now)
+  end
 
 end

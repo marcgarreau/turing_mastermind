@@ -7,41 +7,56 @@ require 'colored'
 require 'pry'
 
 class Game
-  attr_reader :time_start, :guess, :correct_letter, :counter, :guesses
+  attr_reader :time_start, :guess, :correct_letter, :counter, :guesses, :code_word
 
   def initialize
-    @time_start = Time.now
     @guess = ""
     @correct_letter = []
     @counter = 20
     @guesses = []
+    # @code_word
   end
 
+##################( Gameplay )##################
   def play
     generate_a_code
+    @time_start = Time.now
     while @code_word.secret_code != @matched_position && @counter >= 0
       print_im_thinking
-      build_a_guess
+      build_a_guess # until guess_is_valid?
       match_a_guess
       print_guess_results
     end
     print_game_over_scenarios
   end
 
-##################( Puzzle Assets )##################
+##################( Gameplay Methods )##################
   def generate_a_code
     validate_user_diff
-    gen = CodeGenerator.new(@d)
+    gen = CodeGenerator.new(@diff)
     @code_word = gen.generate_code
   end
 
   def validate_user_diff
-    @d = GameREPL.new.validate_difficulty
+    @diff = GameREPL.new.validate_difficulty
   end
 
   def build_a_guess
-    @guess = GuessBuilder.new(gets.chomp.downcase)
+    # validate_guess_input
+    @guess = GuessBuilder.new(gets.chomp.downcase).make_guess #pass in @g
+    until guess_is_valid?
+      puts "Your guess must be #{@code_word.code_length} letters. Try again.\n".red
+      @guess = GuessBuilder.new(gets.chomp.downcase).make_guess #pass in @g
+    end
     @guesses << @guess.string_guess
+  end
+
+  def guess_is_valid?
+    @guess.formatted_guess.length == @code_word.code_length
+  end
+
+  def validate_guess_input
+    @g = GameREPL.new.validate_guess
   end
 
   def match_a_guess
@@ -50,11 +65,12 @@ class Game
     @matched_position = matcher.count_correct_position
   end
 
+##################( Gameplay Assets )##################
   def print_im_thinking
     border
     print "
   I'm thinking of a #{@code_word.secret_code.count} letter combination. What is it?
-  There may be duplicate letters. Choices: RGBY" # => change for diff lvls
+  There may be duplicate letters. #{diff_choice}" # => change for diff lvls
     border_bottom
   end
 
@@ -66,6 +82,17 @@ class Game
   def border_bottom
     puts "
 =======================================================".blue
+  end
+
+  def diff_choice
+    case @diff
+    when "easy"
+      "Choices: RGBY"
+    when "medium"
+      "Choices: RGBYW"
+    when "hard"
+      "Choices: RGBYWP"
+    end
   end
 
   def print_guess_results

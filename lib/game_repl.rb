@@ -2,6 +2,7 @@ require './lib/code_generator'
 require './lib/code_matcher'
 require './lib/guess_builder'
 require './lib/game'
+require './lib/code'
 require 'pry'
 require 'time_difference'
 
@@ -64,8 +65,7 @@ class GameREPL
 
 ##################( Difficulty Validator )##################
   def validate_difficulty
-    command = ""
-    until command == ('e' || 'm' || 'h')
+    loop do
       difficulty_intro
       command = gets.chomp.downcase
       case command

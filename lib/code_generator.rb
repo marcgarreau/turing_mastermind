@@ -19,7 +19,7 @@ class CodeGenerator
   def generate_code
     secret_code = []
     # unless difficulty == ("easy" || "medium" || "hard")
-      case @difficulty #@difficulty
+      case @difficulty
       when "easy"
         potential_letters = %w[r g b y]
         4.times { secret_code << potential_letters.shuffle.first }
