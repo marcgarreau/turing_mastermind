@@ -42,8 +42,7 @@ class GameTest < Minitest::Test
 
   def test_code_gen_and_guess_builder_jive
     game = Game.new
-    gen = CodeGenerator.new("easy")
-    @code_word = gen.generate_code
+    @code_word = CodeGenerator.new("easy").generate_code
     @guess = Guess.new(["r","r","g","g"], Time.now)
     assert_equal @code_word.code_length, @guess.formatted_guess.length
   end

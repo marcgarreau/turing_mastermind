@@ -7,10 +7,10 @@ require 'colored'
 require 'pry'
 
 class Game
-  attr_reader :guess, :counter, :guesses
+  attr_reader :counter, :guesses
 
   def initialize
-    @guess = ""
+    # @guess = ""
     @counter = 20
     @guesses = []
   end
@@ -78,6 +78,7 @@ class Game
     matcher = CodeMatcher.new(@guess.formatted_guess, @code_word.secret_code)
     @matched_letter = matcher.count_correct_letter
     @matched_position = matcher.count_correct_position
+    # binding.pry
   end
 
 ##################( Gameplay Assets )##################
@@ -113,7 +114,7 @@ class Game
 
   def print_guess_results
     puts "You guessed #{@matched_letter.count} out of #{@code_word.secret_code.count} correct letters!"
-    puts "Letters in the correct position: #{@matched_position.count}"
+    puts "Letters in the correct position: #{@matched_position}"
     puts "(#{@counter} turns remaining)".red
     puts "Your guesses: #{@guesses}"
     @counter -= 1
@@ -146,6 +147,6 @@ class Game
 
 end
 
-if __FILE__ == $0
-  # GameREPL.new.start
-end
+# if __FILE__ == $0
+#   GameREPL.new.start
+# end

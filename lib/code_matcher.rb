@@ -22,13 +22,16 @@ class CodeMatcher
   end
 
   def count_correct_position
-    @correct_position = []
+    @correct_position = 0
     @secret_code.length.times do |i|
       if @guess[i] == @secret_code[i]
-        @correct_position << @secret_code[i]
+        @correct_position += 1
       end
     end
     return @correct_position
   end
+
+  # add the two arrays with &
+
 
 end
