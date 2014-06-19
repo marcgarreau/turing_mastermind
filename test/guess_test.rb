@@ -16,4 +16,10 @@ class GuessTest < Minitest::Test
     assert_equal 4, g.formatted_guess.length
   end
 
+  def test_it_can_regurgitate_a_string_version_of_guess
+    g = Guess.new(["r", "g", "g", "y"], Time.now)
+
+    assert_equal "rggy", g.string_guess
+  end
+
 end

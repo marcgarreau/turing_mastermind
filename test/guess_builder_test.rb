@@ -22,4 +22,9 @@ class GuessBuilderTest < Minitest::Test
     assert_equal "rggy", gb.string_guess
   end
 
+  def test_it_creates_a_guess_instance
+    g = GuessBuilder.new("rggy").make_guess
+    assert_equal Guess, g.class
+  end
+
 end

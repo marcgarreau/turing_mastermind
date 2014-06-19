@@ -1,36 +1,28 @@
 require './lib/code'
 
 class CodeGenerator
-  attr_reader :difficulty
+  attr_reader :difficulty, :potential_letters
 
   def initialize(difficulty)
     @difficulty = difficulty
+    @potential_letters = %w[r g b y w p]
   end
-
-  # def validate_difficulty
-  #     diff = gets.downcase.chomp
-  #     unless diff == ("easy" || "medium" || "hard")
-  #       diff = gets.downcase.chomp
-  #       puts "Invalid Diff Setting!"
-  #     end
-  #     diff
-  # end
 
   def generate_code
     secret_code = []
     # unless difficulty == ("easy" || "medium" || "hard")
       case @difficulty
       when "easy"
-        potential_letters = %w[r g b y]
-        4.times { secret_code << potential_letters.shuffle.first }
+        easy_letters = potential_letters[0..3]
+        4.times { secret_code << easy_letters.shuffle.first }
         Code.new(secret_code)
       when "medium"
-        potential_letters = %w[r g b y w]
-        6.times { secret_code << potential_letters.shuffle.first }
+        medium_letters = potential_letters[0..4]
+        6.times { secret_code << medium_letters.shuffle.first }
         Code.new(secret_code)
       when "hard"
-        potential_letters = %w[r g b y w p]
-        8.times { secret_code << potential_letters.shuffle.first }
+        hard_letters = potential_letters[0..5]
+        8.times { secret_code << hard_letters.shuffle.first }
         Code.new(secret_code)
       else
         print "Invalid difficult setting. Select from easy, medium, or hard: "

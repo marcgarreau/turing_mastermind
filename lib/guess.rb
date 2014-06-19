@@ -7,8 +7,4 @@ class Guess
     @timestamp = timestamp
   end
 
-  # def guess_is_valid?
-  #
-  # end
-
 end

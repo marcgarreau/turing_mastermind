@@ -7,14 +7,12 @@ require 'colored'
 require 'pry'
 
 class Game
-  attr_reader :time_start, :guess, :correct_letter, :counter, :guesses, :code_word
+  attr_reader :guess, :counter, :guesses
 
   def initialize
     @guess = ""
-    @correct_letter = []
     @counter = 20
     @guesses = []
-    # @code_word
   end
 
 ##################( Gameplay )##################
@@ -33,7 +31,7 @@ class Game
 ##################( Gameplay Methods )##################
   def generate_a_code
     validate_user_diff
-    gen = CodeGenerator.new(@diff)
+    gen = CodeGenerator.new(@diff) #could put GameREPL in here
     @code_word = gen.generate_code
   end
 
@@ -42,21 +40,34 @@ class Game
   end
 
   def build_a_guess
-    # validate_guess_input
-    @guess = GuessBuilder.new(gets.chomp.downcase).make_guess #pass in @g
-    until guess_is_valid?
-      puts "Your guess must be #{@code_word.code_length} letters. Try again.\n".red
-      @guess = GuessBuilder.new(gets.chomp.downcase).make_guess #pass in @g
+    @input = gets.chomp.downcase
+    if @input == 'q'
+      quit_game
+    else
+      validate_guess
     end
-    @guesses << @guess.string_guess
+    add_a_guess
+  end
+
+  def quit_game
+    puts "\nQuitting game...".red
+    GameREPL.new.start
+  end
+
+  def validate_guess
+    @guess = GuessBuilder.new(@input).make_guess #pass in @g
+      until guess_is_valid?
+        puts "Your guess must be #{@code_word.code_length} letters. Try again.\n".red
+        @guess = GuessBuilder.new(gets.chomp.downcase).make_guess #pass in @g
+      end
   end
 
   def guess_is_valid?
     @guess.formatted_guess.length == @code_word.code_length
   end
 
-  def validate_guess_input
-    @g = GameREPL.new.validate_guess
+  def add_a_guess
+    @guesses << @guess.string_guess
   end
 
   def match_a_guess
@@ -69,8 +80,9 @@ class Game
   def print_im_thinking
     border
     print "
-  I'm thinking of a #{@code_word.secret_code.count} letter combination. What is it?
-  There may be duplicate letters. #{diff_choice}" # => change for diff lvls
+  I'm thinking of a #{@code_word.secret_code.count}-letter combination. What is it?
+  There may be duplicate letters. #{diff_choice}
+  If you're scared and wimpy, enter 'q' to quit." # => change for diff lvls
     border_bottom
   end
 
@@ -87,11 +99,11 @@ class Game
   def diff_choice
     case @diff
     when "easy"
-      "Choices: RGBY"
+      "Choices: r g b y".red
     when "medium"
-      "Choices: RGBYW"
+      "Choices: r g b y w".red
     when "hard"
-      "Choices: RGBYWP"
+      "Choices: r g b y w p".red
     end
   end
 
@@ -107,10 +119,10 @@ class Game
     @time_end = Time.now
     # Game lost:
     if @counter < 0
-      puts "\nAw too bad. You used all your turns up in #{converts_time}. The correct answer was #{@code_word.secret_code}. Try again!".red
+      puts "\nAw too bad. You used all your turns up in #{converts_time}. The correct answer was '#{@code_word.code_text}'. Try again!".red
     # Game won:
     elsif @matched_position == @code_word.secret_code
-      puts "\nCongratulations! You won with #{guess_count} guesses in #{converts_time}! The winning combination was #{@code_word.secret_code}.".red
+      puts "\nCongratulations! You won with #{guess_count} guesses in #{converts_time}! The winning combination was '#{@code_word.code_text}'.".red
     # Testing: did a game end with any other conditions?
     else
       puts "How did you escape?"
@@ -131,5 +143,5 @@ class Game
 end
 
 if __FILE__ == $0
-  GameREPL.new.start
+  # GameREPL.new.start
 end

@@ -16,4 +16,10 @@ class CodeTest < Minitest::Test
     assert_equal 4, new_code.secret_code.size
   end
 
+  def test_it_displays_code_as_string
+    new_code = Code.new(%w(r g g y))
+
+    assert_equal "rggy", new_code.code_text
+  end
+
 end
