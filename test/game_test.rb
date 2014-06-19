@@ -34,7 +34,7 @@ class GameTest < Minitest::Test
     assert_equal "rggy", guess.string_guess
   end
 
-  def test_guess_objects_jive
+  def test_guess_objects_print_strings
     game = Game.new
     @guess = Guess.new(["r","r","g","g"], Time.now)
     assert_equal "rrgg", @guess.string_guess
@@ -47,9 +47,13 @@ class GameTest < Minitest::Test
     assert_equal @code_word.code_length, @guess.formatted_guess.length
   end
 
-  def test_one_guess_adds_to_the_guess_count
+  def test_guess_adds_to_the_guess_count
+    @guesses = []
     game = Game.new
-    #assert_equal 1, game.guess_count
+    @guess = Guess.new(%w[r r g g], Time.now)
+    @guesses << @guess.string_guess
+    assert_equal 1, @guesses.count
   end
+
 
 end

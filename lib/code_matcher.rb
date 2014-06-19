@@ -10,7 +10,6 @@ class CodeMatcher
     @secret_code = secret_code
   end
 
-  # for each value of formatted_guess, is it contained in word?
   def count_correct_letter
     @correct_letter = []
     guess = @guess.dup
@@ -33,5 +32,4 @@ class CodeMatcher
     end
     return @correct_position
   end
-
 end
