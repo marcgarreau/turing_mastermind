@@ -10,7 +10,6 @@ class CodeGenerator
 
   def generate_code
     secret_code = []
-    # unless difficulty == ("easy" || "medium" || "hard")
       case @difficulty
       when "easy"
         easy_letters = potential_letters[0..3]
@@ -26,7 +25,6 @@ class CodeGenerator
         Code.new(secret_code)
       else
         print "Invalid difficult setting. Select from easy, medium, or hard: "
-        # @difficulty = gets.downcase.chomp
       end
     #end
   end

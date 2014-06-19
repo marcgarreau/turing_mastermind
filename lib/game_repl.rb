@@ -12,13 +12,14 @@ class GameREPL
   def start
     print_intro
     command = ""
-    while command != 'n'
+    while command != 'q'
       print_ready
       command = gets.chomp.downcase
       case command
-      when 'n' then print_outro
-      when 'y' then Game.new.play
+      when 'q' then print_outro
+      when 'p' then Game.new.play
       when 'i' then print_instructions
+      when 'why?' then print_sourpuss
       else
         print_invalid_command
       end
@@ -44,11 +45,11 @@ class GameREPL
   end
 
   def print_ready
-    printf "\nAre you ready to play? (y)es, (n)o, or view (i)nstructions: "
+    printf "\nWould you like to (p)lay, read the (i)nstructions, or (q)uit? "
   end
 
   def print_invalid_command
-    puts "Invalid command. Are you ready? (type: y or n)"
+    puts "Invalid command. type 'p' to play, 'i' for instructions, or 'q' to quit.".red
   end
 
   def print_instructions
@@ -56,11 +57,15 @@ class GameREPL
     On easy mode, guess a four letter combination of R, G, Y, and B.\n
     We'll give you feedback to help focus your next guess.\n
     You will lose the game if you don't guess the correct combination after 20 chances.\n
-    Medium difficulty has 5 letters".blue
+    Medium difficulty has 5 choices and 6 positions. Hard: 6 choices, 8 positions".blue
+  end
+
+  def print_sourpuss
+    puts "Because games are fun. Don't be such a sourpuss.".red
   end
 
   def print_outro
-    puts "Bummer. See you next time."
+    puts "Bummer. See you next time.".red
   end
 
 ##################( Difficulty Validator )##################
@@ -84,7 +89,7 @@ class GameREPL
   end
 
   def invalid_difficulty
-    puts "Invalid difficulty level. Please enter 'e' for easy, 'm' for medium, or 'h' for hard."
+    puts "Invalid difficulty level. Please enter 'e' for easy, 'm' for medium, or 'h' for hard.".red
   end
 
 end

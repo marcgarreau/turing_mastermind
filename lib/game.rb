@@ -31,8 +31,8 @@ class Game
 ##################( Gameplay Methods )##################
   def generate_a_code
     validate_user_diff
-    gen = CodeGenerator.new(@diff) #could put GameREPL in here
-    @code_word = gen.generate_code
+    @gen = CodeGenerator.new(@diff) #could put GameREPL in here
+    @code_word = @gen.generate_code
   end
 
   def validate_user_diff
@@ -55,15 +55,19 @@ class Game
   end
 
   def validate_guess
-    @guess = GuessBuilder.new(@input).make_guess #pass in @g
-      until guess_is_valid?
-        puts "Your guess must be #{@code_word.code_length} letters. Try again.\n".red
+    @guess = GuessBuilder.new(@input).make_guess
+      until guess_right_length? && guess_right_chars?
+        puts "Your guess must be #{@code_word.code_length} letters and consist of the choices above. Try again.\n".red
         @guess = GuessBuilder.new(gets.chomp.downcase).make_guess #pass in @g
       end
   end
 
-  def guess_is_valid?
+  def guess_right_length?
     @guess.formatted_guess.length == @code_word.code_length
+  end
+
+  def guess_right_chars?
+    @guess.formatted_guess.all? { |i| @gen.potential_letters.include?(i) }
   end
 
   def add_a_guess
