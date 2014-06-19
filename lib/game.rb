@@ -7,31 +7,31 @@ require 'colored'
 require 'pry'
 
 class Game
-  attr_reader :counter, :guesses
+  attr_reader :counter, :guesses, :quit
 
   def initialize
-    # @guess = ""
     @counter = 20
     @guesses = []
+    @quit    = false
   end
 
 ##################( Gameplay )##################
   def play
     generate_a_code
     @time_start = Time.now
-    while @code_word.secret_code != @matched_position && @counter >= 0
+    until quit || (@code_word.secret_code == @matched_position && @counter >= 0)
       print_im_thinking
-      build_a_guess # until guess_is_valid?
-      match_a_guess
-      print_guess_results
+      build_a_guess
+      match_a_guess unless @quit == true
+      print_guess_results unless @quit == true
     end
-    print_game_over_scenarios
+    print_game_over_scenarios unless @quit == true
   end
 
 ##################( Gameplay Methods )##################
   def generate_a_code
     validate_user_diff
-    @gen = CodeGenerator.new(@diff) #could put GameREPL in here
+    @gen = CodeGenerator.new(@diff)
     @code_word = @gen.generate_code
   end
 
@@ -50,8 +50,8 @@ class Game
   end
 
   def quit_game
-    puts "\nQuitting game...".red
-    GameREPL.new.start
+    puts "\nQuitting game...\n".red
+    @quit = true
   end
 
   def validate_guess
@@ -128,9 +128,9 @@ class Game
     # Game won:
     elsif @matched_position == @code_word.secret_code
       puts "\nCongratulations! You won with #{guess_count} guesses in #{converts_time}! The winning combination was '#{@code_word.code_text}'.".red
-    # Testing: did a game end with any other conditions?
-    else
-      puts "How did you escape?"
+    # Testing: if game ends outside of expected conditions
+    else #
+      puts "How did you escape?".red
     end
   end
 

@@ -31,7 +31,4 @@ class CodeMatcher
     return @correct_position
   end
 
-  # add the two arrays with &
-
-
 end
