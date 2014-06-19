@@ -46,7 +46,7 @@ class Game
     else
       validate_guess
     end
-    add_a_guess
+    add_a_guess unless @quit == true
   end
 
   def quit_game
@@ -78,7 +78,6 @@ class Game
     matcher = CodeMatcher.new(@guess.formatted_guess, @code_word.secret_code)
     @matched_letter = matcher.count_correct_letter
     @matched_position = matcher.count_correct_position
-    # binding.pry
   end
 
 ##################( Gameplay Assets )##################
@@ -113,8 +112,8 @@ class Game
   end
 
   def print_guess_results
-    puts "You guessed #{@matched_letter.count} out of #{@code_word.secret_code.count} correct letters!"
-    puts "Letters in the correct position: #{@matched_position}"
+    puts "You guessed #{@matched_letter.length} out of #{@code_word.secret_code.count} correct letters!"
+    puts "Letters in the correct position: #{@matched_position.length}"
     puts "(#{@counter} turns remaining)".red
     puts "Your guesses: #{@guesses}"
     @counter -= 1

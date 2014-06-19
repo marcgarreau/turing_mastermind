@@ -22,12 +22,12 @@ class CodeMatcherTest < Minitest::Test
 
   def test_it_counts_the_correct_positions
     cm = CodeMatcher.new(%w[r g g b], %w[r g g b])
-    assert_equal 4, cm.count_correct_position
+    assert_equal %w[r g g b], cm.count_correct_position
   end
 
   def test_it_counts_the_incorrect_positions
     cm = CodeMatcher.new(%w[r g g b], %w[r y g b])
-    assert_equal 3, cm.count_correct_position
+    refute_equal %w[r g g b], cm.count_correct_position
   end
 
 end
